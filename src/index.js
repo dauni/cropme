@@ -246,12 +246,33 @@ import './cropme.sass'
 
 
       let angle = -parseInt(self.properties.deg) * Math.PI / 180
-      // let deg = -parseInt(self.properties.deg)
+      let deg = -parseInt(self.properties.deg)
       cx = left / scale
       cy = top / scale
+      
+      console.log(self.properties.x);
+      let disx = self.properties.ox - self.properties.x
+      let disy = self.properties.oy - self.properties.y
+      let a = disx * Math.cos(angle) - disy * Math.sin(angle)
+      let b = disx * Math.sin(angle) + disy * Math.cos(angle)
+      let imgw = self.properties.image.width
+      let imgh = self.properties.image.height
+      cx = imgw/2 + a/scale
+      cy = imgh/2 + b/scale
 
+      self.properties.x = 200 - cx
 
       if (angle) {
+        let old_originx = self.properties.rotate_originx
+        let old_originy = self.properties.rotate_originy
+        let nx = 0 - old_originx
+        let ny = old_originy
+
+        let x = nx * Math.cos(angle) - ny * Math.sin(angle)
+        let y = nx * Math.sin(angle) + ny * Math.cos(angle)
+        let diffx = nx - x
+        let diffy = ny - y
+
 
       } else {
         // Set the origin
@@ -447,7 +468,7 @@ import './cropme.sass'
       this.properties.rotate_originy = oy
       this.properties.image.style.transform = transform.call(this)
     }
-    crop (options) {
+    crop(options) {
       let canvas = createCanvas.call(this, options)
       options = typeof options === 'object' ? options.type : options
       return new Promise(resolve => {
