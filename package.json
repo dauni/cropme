@@ -1,12 +1,14 @@
 {
   "name": "cropme",
-  "version": "1.0.3",
+  "version": "1.1.1",
   "description": "Javascript image cropper",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "prod": "NODE_ENV=production webpack --mode=production",
-    "dev": "webpack-dev-server --output-path /dist --mode=development"
+    "build": "npm run build:js && npm run minify:js && npm run minify:css",
+    "build:js": "rollup -c",
+    "minify:js": "uglifyjs dist/cropme.js -o dist/cropme.min.js -c -m --comments '/^/*!/'",
+    "minify:css": "postcss dist/cropme.css -u cssnano -o dist/cropme.min.css --no-map",
+    "watch": "npm run minify:js && rollup -c -w"
   },
   "repository": {
     "type": "git",
@@ -15,21 +17,31 @@
   "keywords": [
     "javascript",
     "image",
-    "crop"
+    "crop",
+    "move",
+    "zoom",
+    "rotate",
+    "scale",
+    "cropme",
+    "cropping",
+    "html",
+    "css",
+    "javascript"
   ],
   "author": "shpontex",
   "license": "MIT",
   "homepage": "https://shpontex.github.io/cropme",
   "devDependencies": {
-    "css-loader": "^1.0.1",
-    "mini-css-extract-plugin": "^0.4.5",
-    "node-sass": "^4.10.0",
-    "optimize-css-assets-webpack-plugin": "^5.0.1",
-    "postcss-loader": "^3.0.0",
-    "sass-loader": "^7.1.0",
-    "style-loader": "^0.23.1",
-    "webpack": "^4.26.1",
-    "webpack-cli": "^3.1.2",
-    "webpack-dev-server": "^3.1.10"
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.2.3",
+    "create-banner": "^1.0.0",
+    "cssnano": "^4.1.8",
+    "node-sass": "^4.11.0",
+    "postcss-cli": "^6.1.0",
+    "postcss-import": "^12.0.1",
+    "postcss-url": "^8.0.0",
+    "rollup": "^1.0.1",
+    "rollup-plugin-babel": "^4.2.0",
+    "uglify-js": "^3.4.9"
   }
 }
